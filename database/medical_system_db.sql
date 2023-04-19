@@ -27,6 +27,10 @@ SET time_zone = "+00:00";
 -- Table structure for table `users`
 --
 
+CREATE DATABASE medical_system_db;
+
+USE medical_system_db;
+
 CREATE TABLE `users` (
   `id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
