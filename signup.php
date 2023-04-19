@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($username) && !empty($password) && !is_numeric($username)) {
         $user_id = random_num(20);
         $query = "insert into users (user_id, user_name, password) values ('$user_id', '$user_name', '$password')";
-
+    
         mysqli_query($conn, $query);
 
         header("Location: login.php");
@@ -45,7 +45,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div>
                 <input type="text" id="password" name="password">
             </div>
-
+            <div>
+                <select name="role" id="role-select">
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="role1">role1</option>
+                    <option value="role2">role2</option>
+                    <option value="role3">role3</option>
+                </select>
+            </div>
             <div>
                 <input type="submit" id="submit-button" value="Sign up">
             </div>
