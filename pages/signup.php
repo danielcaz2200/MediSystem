@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div>
                 <select name="role" id="role-select">
-                    <option value="" disabled selected>Select an option</option>
+                    <option value="" selected required>Select an option</option>
                     <option value="medical provider">Medical provider</option>
                     <option value="medical supplier">Medical supplier</option>
                 </select>
