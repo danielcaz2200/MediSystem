@@ -1,7 +1,7 @@
 <?php
 session_start();
-include("connection.php");
-include("functions.php");
+include("../util/connection.php");
+include("../util/functions.php");
 
 // check if user is logged in
 $user_data = check_login($conn);
@@ -15,7 +15,7 @@ $user_data = check_login($conn);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="styles.css?v=1" rel="stylesheet">
+    <link href="../styles.css?v=1" rel="stylesheet">
     <title>MedSystem</title>
 </head>
 
@@ -49,7 +49,7 @@ $user_data = check_login($conn);
 
         <!-- image row -->
         <div class="row justify-content-center p-3">
-            <img src="./images/healthcare-stockimage.jpg" class="img-fluid rounded-circle" id="healthcare-img">
+            <img src="../images/healthcare-stockimage.jpg" class="img-fluid rounded-circle" id="healthcare-img">
         </div>
 
         <!-- dashboard button row -->
