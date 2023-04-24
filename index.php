@@ -29,10 +29,10 @@ $user_data = check_login($conn);
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="pages/dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="pages/logout.php">Logout</a>
                 </li>
             </ul>
         </div>
@@ -55,7 +55,7 @@ $user_data = check_login($conn);
         <!-- dashboard button row -->
         <div class="row justify-content-center">
             <div class="d-grid justify-content-center">
-                <a href="#" class="btn btn-dark btn-lg">Visit Dashboard</a>
+                <a href="pages/dashboard.php" class="btn btn-dark btn-lg">Visit Dashboard</a>
             </div>
         </div>
     </div>
