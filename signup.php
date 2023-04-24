@@ -7,11 +7,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // something was posted to the server
     $user_name = $_POST['username'];
     $password = $_POST['password'];
+    $user_type = $_POST['role'];
 
     // we do not want a number as a username
-    if (!empty($username) && !empty($password) && !is_numeric($username)) {
+    if (!empty($username) && !empty($password) && !is_numeric($username) && !empty($user_type)) {
         $user_id = random_num(20);
-        $query = "insert into users (user_id, user_name, password) values ('$user_id', '$user_name', '$password')";
+        $query = "insert into users (user_id, user_name, password, user_type) values ('$user_id', '$user_name', '$password', '$user_type')";
     
         mysqli_query($conn, $query);
 
@@ -48,9 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div>
                 <select name="role" id="role-select">
                     <option value="" disabled selected>Select an option</option>
-                    <option value="role1">role1</option>
-                    <option value="role2">role2</option>
-                    <option value="role3">role3</option>
+                    <option value="medical provider">Medical provider</option>
+                    <option value="medical supplier">Medical supplier</option>
                 </select>
             </div>
             <div>
