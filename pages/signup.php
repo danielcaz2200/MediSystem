@@ -31,42 +31,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles.css?<?= time() ?>">
     <title>Sign up</title>
 </head>
 
 <body>
-    <div id="box">
-        <!-- overall container -->
-        <div id="form-container">
-            <div>Sign up</div>
-            <form method="post" id="login-form">
-                <div>
-                    <input type="text" id="username" name="username">
-                </div>
+    <!-- overall container -->
+    <div class="container">
+        <!-- begin form -->
+        <div class="p-3 text-center">Sign up</div>
+        <form method="post" id="signup-form" class="form-floating mx-auto rounded">
+            <div class="p-3">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+            </div>
 
-                <div>
-                    <input type="text" id="password" name="password">
-                </div>
-                <div>
-                    <select name="role" id="role-select">
-                        <option value="" selected required>Select an option</option>
-                        <option value="medical provider">Medical provider</option>
-                        <option value="medical supplier">Medical supplier</option>
-                    </select>
-                </div>
-                <div>
-                    <input type="submit" id="submit-button" value="Sign up">
-                </div>
+            <div class="p-3">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
 
-                <div>
-                    <a href="login.php">Click to login</a>
-                </div>
+            <div class="p-3">
+                <label for="role-select">Role</label>
+                <select class="form-select" name="role" id="role-select" required>
+                    <option value="" selected disabled>Select a role</option>
+                    <option value="medical provider">Medical provider</option>
+                    <option value="medical supplier">Medical supplier</option>
+                </select>
+            </div>
 
-                <div id="error-message"></div>
-            </form>
-        </div>
+            <div class="p-3">
+                <button class="btn btn-primary" type="submit" id="submit-button">Sign up</button>
+            </div>
+
+            <div class="link-primary p-3">
+                <a href="login.php">Click to login</a>
+            </div>
+
+            <div class="m-3" id="error-message">
+                <!-- Where error message goes -->
+            </div>
+        </form>
+        <!-- end form -->
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

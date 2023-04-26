@@ -1,18 +1,11 @@
-#box {
-    display: flex;
-    justify-content: center;
-}
-
-#form-container {
+#signup-form {
     background-color: gainsboro;
-    display: flex;
-    flex-direction: column;
+    max-width: 500px;
 }
 
-#box form div {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+#login-form {
+    background-color: gainsboro;
+    max-width: 500px;
 }
 
 #healthcare-img {
