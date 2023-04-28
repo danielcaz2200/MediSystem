@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="p-3">
-                <button class="btn btn-primary" type="submit" id="submit-button">Login up</button>
+                <button class="btn btn-primary" type="submit" id="submit-button">Login</button>
             </div>
 
             <div class="link-primary p-3">
