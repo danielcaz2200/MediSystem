@@ -36,6 +36,7 @@ function random_num($length)
     return $text;
 }
 
+// this builds the sql queries for the filtering mechanism
 function build_query($conn, $search_table)
 {
     $query = "select * from $search_table";
@@ -43,6 +44,7 @@ function build_query($conn, $search_table)
     // our array to hold the conditions
     $where = array();
 
+    // check if these keys are set and they contain actual strings
     if (isset($_GET['username']) && !empty($_GET['username'])) {
         $user_name = $_GET['username'];
         $where[] = "user_name='$user_name'";
@@ -56,7 +58,7 @@ function build_query($conn, $search_table)
         $where[] = "specialty='$specialty'";
     }
 
-
+    // create the query using implode
     if (count($where) > 0) {
         $query .= " WHERE " . implode(' AND ', $where);
     }
