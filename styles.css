@@ -9,6 +9,16 @@
 }
 
 #healthcare-img {
-    width: 50%;
+    width: 60%;
     height: auto;
+}
+
+#signup-form {
+    background-color: gainsboro;
+    max-width: 500px;
+}
+
+#filter-form {
+    background-color: gainsboro;
+    max-width: 500px;
 }
