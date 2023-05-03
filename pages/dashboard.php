@@ -54,7 +54,7 @@
                             <h3 class="card-title">Scheduling</h3>
                             <p class="card-text"><strong>Your next appointment:</strong></p>
                             <p>None</p>
-                            <a href="schedule.php">View your schedule</a>
+                            <a class="btn btn-primary" href="schedule.php">View your schedule</a>
                         </div> 
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                             <h3 class="card-title">Messaging</h3>
                             <p class="card-text"><strong>Recent Messages:</strong></p>
                             <p>None</p>
-                            <a href="dashboard.php">View your Inbox</a>
+                            <a class="btn btn-primary" href="dashboard.php">View your Inbox</a>
                         </div> 
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                             <h3 class="card-title">Search</h3>
                             <p class="card-text"><strong>Recently viewed:</strong></p>
                             <p>None</p>
-                            <a href="search.php">Search available clients</a>
+                            <a class="btn btn-primary" href="search.php">Search available clients</a>
                         </div> 
                     </div>
                 </div>
