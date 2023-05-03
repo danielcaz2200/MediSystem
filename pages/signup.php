@@ -8,11 +8,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_name = $_POST['username'];
     $password = $_POST['password'];
     $user_type = $_POST['role'];
+    $email = $_POST['email'];
+    $city = $_POST['city'];
+    $specialty = $_POST['specialty'];
+
+    $user_table = ($user_type === 'medical provider') ? 'medical_providers' : 'medical_suppliers';
 
     // we do not want a number as a username
-    if (!empty($username) && !empty($password) && !is_numeric($username) && !empty($user_type)) {
+    if (!empty($user_name) && !empty($password) && !is_numeric($user_name) && !empty($user_type) && !empty($email) && !empty($city) && !empty($specialty)) {
         $user_id = random_num(20);
-        $query = "insert into users (user_id, user_name, password, user_type) values ('$user_id', '$user_name', '$password', '$user_type')";
+        $query = "insert into users (user_id, user_name, password, user_type, email, city) values ('$user_id', '$user_name', '$password', '$user_type', '$email', '$city')";
+
+        mysqli_query($conn, $query);
+
+        // add entry into corresponding table
+        $query = "insert into $user_table (user_id, user_name, email, city, specialty) values ('$user_id', '$user_name', '$email', '$city', '$specialty')";
 
         mysqli_query($conn, $query);
 
@@ -43,13 +53,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="p-3 text-center">Sign up</div>
         <form method="post" id="signup-form" class="form-floating mx-auto rounded">
             <div class="p-3">
+                <label for="username">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="p-3">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="p-3">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
             </div>
 
             <div class="p-3">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
             </div>
 
             <div class="p-3">
@@ -59,6 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="medical provider">Medical provider</option>
                     <option value="medical supplier">Medical supplier</option>
                 </select>
+            </div>
+
+            <div class="p-3">
+                <label for="specialty">Specialty</label>
+                <input type="text" class="form-control" id="specialty" name="specialty" placeholder="Specialty" required>
             </div>
 
             <div class="p-3">

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="../styles.css?<?= time() ?>">
     <title>Dashboard</title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -17,14 +19,18 @@
                     <a class="nav-link" href="../index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/dashboard.php">Dashboard</a>
+                    <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/logout.php">Logout</a>
+                    <a class="nav-link" href="./search.php">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
     <h1>Dashboard</h1>
 </body>
+
 </html>
