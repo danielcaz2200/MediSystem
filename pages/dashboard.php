@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    include("../util/connection.php");
+    include("../util/functions.php");
+    
+    // check if user is logged in
+    $user_data = check_login($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +39,57 @@
             </ul>
         </div>
     </nav>
-    <h1>Dashboard</h1>
+    <h1 class="text-center">Welcome, <?= $user_data['user_name'] ?></h1>
+    <section id="card-container">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <div class="card" style="width: 300px">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Scheduling</h3>
+                            <p class="card-text">Your next appointment:</p>
+                            <a href="dashboard.php">None</a>
+                            <a href="dashboard.php">View your schedule</a>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card" style="width: 300px">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Messaging</h3>
+                            <p class="card-text"><?=1?> New Message</p>
+                            <p><strong>Recent Messages:</strong></p>
+                            <?php
+                                /*
+                                $user_name = $user_data['user_name'];
+
+                                $search_table = 'messages';
+                            
+                                $result = build_query($conn, $search_table);
+                            
+                                foreach ($result as $data) {
+                                    echo $data;
+                                }
+                                */
+                            ?>
+                            <p>Subject: <?="SUBJECT"?></p>
+                            <a href="dashboard.php">View your Inbox</a>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card" style="width: 300px">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Scheduling</h3>
+                            <p class="card-text">Your next appointment:</p>
+                            <span>None</span>
+                            <a href="dashboard.php">View your schedule</p>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
