@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                     <th scope="col">Email</th>
                                     <th scope="col">City</th>
                                     <th scope="col">Specialty</th>
+                                    <th scope="col">Contact us</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,6 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                         <td><?= $row['email'] ?></td>
                                         <td><?= $row['city'] ?></td>
                                         <td><?= $row['specialty'] ?></td>
+                                        <td>
+                                            <a href="./schedule.php?recipient=<?= urlencode($row['user_name']) ?>">Contact me</a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
