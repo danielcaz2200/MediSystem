@@ -67,3 +67,16 @@ function build_query($conn, $search_table)
 
     return $result;
 }
+
+function get_recipient_id($conn, $recipient_name)
+{
+    $query = "select id from users where user_name = '$recipient_name' limit 1";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['id'];
+    }
+
+    throw new Exception("Failed to get recipient ID, does not exist within users table");
+}

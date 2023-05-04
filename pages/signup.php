@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_query($conn, $query);
 
         header("Location: login.php");
-        die;
+        die();
     } else {
         echo "Please enter some valid information<br>";
     }
