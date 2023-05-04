@@ -40,7 +40,7 @@
             </ul>
         </div>
     </nav>
-    <h1 class="text-center">Welcome, <?= $user_data['user_name'] ?></h1>
+    <h1 class="text-center" style="padding: 25px 0px 25px 0px">Welcome, <?= $user_data['user_name'] ?></h1>
     <section id="card-container">
         <div class="container-fluid d-flex justify-content-center">
             <div class="row">
@@ -67,7 +67,7 @@
                             <h3 class="card-title">Messaging</h3>
                             <p class="card-text"><strong>Recent Messages:</strong></p>
                             <p>None</p>
-                            <a class="btn btn-primary" href="dashboard.php">View your Inbox</a>
+                            <a class="btn btn-primary" href="messages.php">View your Inbox</a>
                         </div> 
                     </div>
                 </div>
