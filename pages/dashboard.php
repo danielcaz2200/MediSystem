@@ -67,7 +67,7 @@
                             <h3 class="card-title">Messaging</h3>
                             <p class="card-text"><strong>Recent Messages:</strong></p>
                             <p>None</p>
-                            <a class="btn btn-primary" href="messages.php">View your Inbox</a>
+                            <a class="btn btn-primary" href="messaging.php">View your Inbox</a>
                         </div> 
                     </div>
                 </div>
