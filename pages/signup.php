@@ -14,10 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $user_table = ($user_type === 'medical provider') ? 'medical_providers' : 'medical_suppliers';
 
+    // hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
     // we do not want a number as a username
     if (!empty($user_name) && !empty($password) && !is_numeric($user_name) && !empty($user_type) && !empty($email) && !empty($city) && !empty($specialty)) {
         $user_id = random_num(20);
-        $query = "insert into users (user_id, user_name, password, user_type, email, city) values ('$user_id', '$user_name', '$password', '$user_type', '$email', '$city')";
+        $query = "insert into users (user_id, user_name, password, user_type, email, city) values ('$user_id', '$user_name', '$hashed_password', '$user_type', '$email', '$city')";
 
         mysqli_query($conn, $query);
 
@@ -70,6 +73,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="p-3">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <!-- Toggle password show/hide -->
+                <input class="form-check-input" type="checkbox" onClick="toggleShow()"> Show password
+                <script>
+                    function toggleShow() {
+                        var x = document.getElementById("password");
+                        if (x.type === "password") {
+                            x.type = "text";
+                        }
+                        else {
+                            x.type = "password";
+                        }
+                    }
+                </script>
             </div>
 
             <div class="p-3">

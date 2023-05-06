@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result && mysqli_num_rows($result) > 0) {
             $user_data = mysqli_fetch_assoc($result);
 
-            if ($user_data['password'] === $password) {
+            if (password_verify($password, $user_data['password'])) {
                 // set session id
                 $_SESSION['user_id'] = $user_data['user_id'];
 
@@ -59,6 +59,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="p-3">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <!-- Toggle password show/hide -->
+                <input class="form-check-input" type="checkbox" onClick="toggleShow()"> Show password
+                <script>
+                    function toggleShow() {
+                        var x = document.getElementById("password");
+                        if (x.type === "password") {
+                            x.type = "text";
+                        }
+                        else {
+                            x.type = "password";
+                        }
+                    }
+                </script>
             </div>
 
             <div class="p-3">
