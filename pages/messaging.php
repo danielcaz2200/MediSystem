@@ -5,6 +5,14 @@
     
     // check if user is logged in
     $user_data = check_login($conn);
+
+    $search_table = "messages";
+
+    $result = get_user_messages($conn, $user_data['user_id']);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $result = get_user_messages($conn, $user_data['user_id']);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -37,5 +45,40 @@
         </div>
     </nav>
     <h1 class="text-center" style="padding: 25px 0px 25px 0px">Messaging</h1>
+    <div class="container p-3">
+        <div class="col-md-12">
+            <div class="card p-3">
+                <h2 class="card-title p-3">Inbox</h2>
+                <div class="p-3">
+                    <a href="./new_message.php" class="btn btn-primary ">New Message</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">From</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Action</th>    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($result as $row) : ?>
+                                <tr>
+                                    <td><?= $row['sender_id'] ?></td>
+                                    <td><?= $row['recipient_id'] ?></td>
+                                    <td><?= $row['date_time'] ?></td>
+                                    <td><?= $row['message_text'] ?></td>
+                                    <td>
+                                        <a href="./new_message.php?recipient=<?=urlencode($row['sender_id']) ?>">Reply</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+    </div>
 </body>
 </html>
