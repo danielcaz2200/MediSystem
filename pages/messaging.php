@@ -57,6 +57,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">From</th>
+                                <th scope="col">Date</th>
                                 <th scope="col">Message</th>
                                 <th scope="col">Action</th>    
                             </tr>
@@ -64,8 +65,7 @@
                         <tbody>
                             <?php foreach ($result as $row) : ?>
                                 <tr>
-                                    <td><?= $row['sender_id'] ?></td>
-                                    <td><?= $row['recipient_id'] ?></td>
+                                    <td><?= get_sender_name($conn, $row['sender_id']) ?></td>
                                     <td><?= $row['date_time'] ?></td>
                                     <td><?= $row['message_text'] ?></td>
                                     <td>

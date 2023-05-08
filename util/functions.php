@@ -88,3 +88,16 @@ function get_user_messages($conn, $recipient_id) {
 
     return $result;
 }
+
+function get_sender_name($conn, $sender_id) {
+    $query = "select user_name from users where user_id = '$sender_id' limit 1";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['user_name'];
+    }
+
+    throw new Exception("Failed to get user_name, does not exist within users table");
+}
