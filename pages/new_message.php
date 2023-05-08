@@ -6,17 +6,12 @@
     // check if user is logged in
     $user_data = check_login($conn);
 
-    // if (isset($_GET['recipient'])) {
-    //     $recipient_name = $_GET['recipient'];
-
-    //     // retrieves recipient id from users table
-    //     try {
-    //         $recipient_id = get_recipient_id($conn, $recipient_name);
-    //     } catch (Exception $e) {
-    //         // immediately stop the script if we could not retrieve recipient id
-    //         die("Error: " . $e->getMessage());
-    //     }
-    // }
+    if (isset($_GET['recipient'])) {
+        $recipient_name = get_sender_name($conn, $_GET['recipient']);
+    }
+    else {
+        $recipient_name = "";
+    }
     
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -83,7 +78,7 @@
         <form method="post" id="message-form" class="form-floating mx-auto rounded">
             <div class="p-3">
                 <label for="recipient-username" class="form-label">Recipient Username</label>
-                <input type="text" class="form-control" placeholder="Example: user12345" name="recipient-username" id="recipient-username" required>
+                <input type="text" class="form-control" placeholder="Example: user12345" name="recipient-username" id="recipient-username" value="<?=$recipient_name?>" required>
             </div>
 
             <div class="p-3">
