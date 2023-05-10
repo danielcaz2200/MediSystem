@@ -76,6 +76,7 @@ $appointment_requests = get_appointment_requests($conn, $user_id);
                                     <td><?= $date_time ?></td>
                                     <td><?= $row['message_text'] ?></td>
                                     <td>
+                                        <!-- this button is not functional yet -->
                                         <a class="btn btn-primary">Accept</a>
                                     </td>
                                     <td>
