@@ -99,16 +99,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 <!-- embedded php to display results of query -->
                                 <?php foreach ($result as $row) : ?>
                                     <tr>
-                                        <td><?= $row['user_id'] ?></td>
-                                        <td><?= $row['user_name'] ?></td>
-                                        <td><?= $row['email'] ?></td>
-                                        <td><?= $row['city'] ?></td>
-                                        <td><?= $row['specialty'] ?></td>
+                                        <?php
+                                        $user_id = $row['user_id'];
+                                        $user_name = $row['user_name'];
+                                        $email = $row['email'];
+                                        $city = $row['city'];
+                                        $specialty = $row['specialty'];
+                                        ?>
+
+                                        <td><?= $user_id ?></td>
+                                        <td><?= $user_name ?></td>
+                                        <td><?= $email ?></td>
+                                        <td><?= $city ?></td>
+                                        <td><?= $specialty ?></td>
                                         <td>
-                                            <a href="./new_appointment.php?recipient=<?= urlencode($row['user_id']) ?>">Request appointment</a>
+                                            <a href="./new_appointment.php?recipient=<?= urlencode($user_id) ?>">Request appointment</a>
                                         </td>
                                         <td>
-                                            <a href="./new_message.php?recipient=<?= urlencode($row['user_id']) ?>">Message me<a>
+                                            <a href="./new_message.php?recipient=<?= urlencode($user_id) ?>">Message me<a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

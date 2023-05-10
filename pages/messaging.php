@@ -65,17 +65,19 @@ $result = get_user_messages($conn, $user_id);
                                 <tr>
                                     <!-- show each sender's name -->
                                     <?php
-                                    $sender_username = user_id_to_username($conn, $row['sender_id']);
+                                    $sender_id = $row['sender_id'];
+                                    $sender_username = user_id_to_username($conn, $sender_id);
                                     // create new DateTime obj to format the date string
                                     $date_time = new DateTime($row['date_time']);
                                     $date_time = $date_time->format('m/d/Y h:i A');
+                                    $message_text = $row['message_text'];
                                     ?>
                                     <td><?= $sender_username ?></td>
                                     <td><?= $date_time ?></td>
-                                    <td><?= $row['message_text'] ?></td>
+                                    <td><?= $message_text ?></td>
                                     <td>
                                         <!-- sender id is the current person we want to message -->
-                                        <a href="./new_message.php?recipient=<?= urlencode($row['sender_id']) ?>">Reply</a>
+                                        <a href="./new_message.php?recipient=<?= urlencode($sender_id) ?>">Reply</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

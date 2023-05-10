@@ -3,6 +3,8 @@ session_start();
 include("../util/connection.php");
 include("../util/functions.php");
 
+// this script deletes a particular appointment 
+// request and is tied to the deny button on schedule.php
 if (isset($_POST['request_id'])) {
     $request_id = $_POST['request_id'];
     $query = "delete from appointment_requests where id='$request_id'";

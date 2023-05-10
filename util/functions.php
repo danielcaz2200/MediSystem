@@ -89,7 +89,8 @@ function user_id_to_username($conn, $user_id)
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        return $row['user_name'];
+        $user_name = $row['user_name'];
+        return $user_name;
     }
 
     die("Failed to get user_name, does not exist within users table");

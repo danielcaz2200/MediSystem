@@ -66,15 +66,18 @@ $appointment_requests = get_appointment_requests($conn, $user_id);
                                 <tr>
                                     <?php
                                     // get the username of whoever requested this meeting
-                                    $creator_name = user_id_to_username($conn, $row['creator_id']);
+                                    $request_id = $row['id'];
+                                    $creator_id = $row['creator_id'];
+                                    $creator_name = user_id_to_username($conn, $creator_id);
                                     // create new DateTime obj to format the date string
                                     $date_time = new DateTime($row['date_time']);
                                     $date_time = $date_time->format('m/d/Y h:i A');
+                                    $message_text = $row['message_text'];
                                     ?>
-                                    <td><?= $row['id'] ?></td>
+                                    <td><?= $request_id ?></td>
                                     <td><?= $creator_name ?></td>
                                     <td><?= $date_time ?></td>
-                                    <td><?= $row['message_text'] ?></td>
+                                    <td><?= $message_text ?></td>
                                     <td>
                                         <!-- this button is not functional yet -->
                                         <a class="btn btn-primary">Accept</a>
