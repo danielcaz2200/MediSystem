@@ -6,7 +6,9 @@ include("../util/functions.php");
 // check if user is logged in
 $user_data = check_login($conn);
 
-$result = get_user_messages($conn, $user_data['user_id']);
+$user_id = $user_data['user_id'];
+
+$result = get_user_messages($conn, $user_id);
 ?>
 
 <!DOCTYPE html>

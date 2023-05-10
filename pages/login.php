@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <!-- begin form -->
         <div class="p-3 text-center">Login</div>
-        <form method="post" id="login-form" class="form-floating mx-auto rounded">
+        <form method="POST" id="login-form" class="form-floating mx-auto rounded">
             <div class="p-3">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -66,8 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         var x = document.getElementById("password");
                         if (x.type === "password") {
                             x.type = "text";
-                        }
-                        else {
+                        } else {
                             x.type = "password";
                         }
                     }

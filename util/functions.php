@@ -73,7 +73,7 @@ function build_query($conn, $search_table)
 // show all messages belonging to a user
 function get_user_messages($conn, $user_id)
 {
-    $query = "select * from messages join users on messages.recipient_id = users.user_id where messages.recipient_id = '$user_id';";
+    $query = "select * from messages where recipient_id = '$user_id'";
 
     $result = mysqli_query($conn, $query);
 
@@ -92,5 +92,14 @@ function user_id_to_username($conn, $user_id)
         return $row['user_name'];
     }
 
-    throw new Exception("Failed to get user_name, does not exist within users table");
+    die("Failed to get user_name, does not exist within users table");
+}
+
+function get_appointment_requests($conn, $user_id)
+{
+    $query = "select * from appointment_requests where recipient_id = '$user_id' limit 1";
+
+    $result = mysqli_query($conn, $query);
+
+    return $result;
 }

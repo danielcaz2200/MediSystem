@@ -21,7 +21,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     mysqli_query($conn, $query);
 
+    // sends user to confirmation page, then redirects them back to inbox
+    echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
+    echo '<div class="text-center">
+            <h1 class="text-center">Message sent!</h1>
+            <h3 class="text-center">Returning to search page...</h3>
+            <a href="search.php">Click to redirect if it doesn\'t redirect you automatically</a>
+        </div>';
+
     header("refresh:4; url=search.php");
+
     die();
 }
 ?>
@@ -62,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <!-- begin form -->
         <div class="p-3 lead">Request an appointment with: <?= $recipient_name ?></div>
-        <form method="post" id="appointment-form" class="form-floating mx-auto rounded">
+        <form method="POST" id="appointment-form" class="form-floating mx-auto rounded">
             <div class="p-3">
                 <label for="appointment-reason" class="form-label">Reason for appointment</label>
                 <input type="text" class="form-control" placeholder="Reason for appointment" id="appointment-reason" name="reason">

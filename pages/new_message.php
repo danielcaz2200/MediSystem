@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
     <div class="container">
         <h1 class="p-3">New Message</h1>
-        <form method="post" id="message-form" class="form-floating mx-auto rounded">
+        <form method="POST" id="message-form" class="form-floating mx-auto rounded">
             <div class="p-3">
                 <label for="recipient-username" class="form-label">Recipient Username</label>
                 <input type="text" class="form-control" placeholder="Example: user12345" name="recipient-username" id="recipient-username" value="<?= $recipient_name ?>" required>
