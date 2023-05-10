@@ -8,36 +8,23 @@ $user_data = check_login($conn);
 
 if (isset($_GET['recipient'])) {
     $recipient_id = $_GET['recipient'];
-    $recipient_name = user_id_to_username($conn, $_GET['recipient']);
-} else {
-    $recipient_name = "";
+    $recipient_name = user_id_to_username($conn, $recipient_id);
 }
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $sender_id = $_SESSION['user_id'];
-    $date_time = date('Y-m-d H:i:s');
-    $message_text = htmlspecialchars($_POST['message-text']);
+    $creator_id = $_SESSION['user_id'];
+    // convert to date_time
+    $date_time = date('Y-m-d H:i:s', strtotime($_POST['time']));
+    $message_text = htmlspecialchars($_POST['reason']);
 
-    $query = "insert into messages (recipient_id, sender_id, date_time, message_text) values ('$recipient_id', '$sender_id', '$date_time', '$message_text')";
+    $query = "insert into appointment_requests (recipient_id, creator_id, date_time, message_text) values ('$recipient_id', '$creator_id', '$date_time', '$message_text')";
 
     mysqli_query($conn, $query);
 
-    // sends user to confirmation page, then redirects them back to inbox
-    echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
-    echo '<div class="text-center">
-            <h1 class="text-center">Message sent!</h1>
-            <h3 class="text-center">Returning to your messaging inbox...</h3>
-            <a href="messaging.php">Click to redirect if it doesn\'t redirect you automatically</a>
-        </div>';
-
-    header("refresh:4; url=messaging.php");
-
+    header("refresh:4; url=search.php");
     die();
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../styles.css?<?= time() ?>">
-    <title>New Message</title>
+    <title>Schedule</title>
 </head>
 
 <body>
@@ -71,25 +58,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </ul>
         </div>
     </nav>
+
     <div class="container">
-        <h1 class="p-3">New Message</h1>
-        <form method="post" id="message-form" class="form-floating mx-auto rounded">
+        <!-- begin form -->
+        <div class="p-3 lead">Request an appointment with: <?= $recipient_name ?></div>
+        <form method="post" id="appointment-form" class="form-floating mx-auto rounded">
             <div class="p-3">
-                <label for="recipient-username" class="form-label">Recipient Username</label>
-                <input type="text" class="form-control" placeholder="Example: user12345" name="recipient-username" id="recipient-username" value="<?= $recipient_name ?>" required>
+                <label for="appointment-reason" class="form-label">Reason for appointment</label>
+                <input type="text" class="form-control" placeholder="Reason for appointment" id="appointment-reason" name="reason">
             </div>
 
             <div class="p-3">
-                <label for="message-text" class="form-label">Message body</label>
-                <textarea class="form-control" placeholder="Add a message...." rows="4" name="message-text" id="message-text" required></textarea>
+                <label for="appointment-time" class="form-label">Date and time</label>
+                <input type="datetime-local" class="form-control" id="appointment-time" name="time">
             </div>
 
             <div class="p-3">
-                <button class="btn btn-primary" type="submit" id="message-button">Send message</button>
+                <button class="btn btn-primary" type="submit" id="message-button">Send request</button>
             </div>
-
         </form>
+        <!-- end form -->
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

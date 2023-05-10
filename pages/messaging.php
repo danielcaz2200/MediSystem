@@ -1,22 +1,17 @@
 <?php
-    session_start();
-    include("../util/connection.php");
-    include("../util/functions.php");
-    
-    // check if user is logged in
-    $user_data = check_login($conn);
+session_start();
+include("../util/connection.php");
+include("../util/functions.php");
 
-    $search_table = "messages";
+// check if user is logged in
+$user_data = check_login($conn);
 
-    $result = get_user_messages($conn, $user_data['user_id']);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $result = get_user_messages($conn, $user_data['user_id']);
-    }
+$result = get_user_messages($conn, $user_data['user_id']);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,6 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Messaging</title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -57,19 +53,27 @@
                         <thead>
                             <tr>
                                 <th scope="col">From</th>
-                                <th scope="col">Date</th>
+                                <th scope="col">Date and Time</th>
                                 <th scope="col">Message</th>
-                                <th scope="col">Action</th>    
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($result as $row) : ?>
                                 <tr>
-                                    <td><?= get_sender_name($conn, $row['sender_id']) ?></td>
-                                    <td><?= $row['date_time'] ?></td>
+                                    <!-- show each sender's name -->
+                                    <?php
+                                    $sender_username = user_id_to_username($conn, $row['sender_id']);
+                                    // create new DateTime obj to format the date string
+                                    $date_time = new DateTime($row['date_time']);
+                                    $date_time = $date_time->format('m/d/Y h:i A');
+                                    ?>
+                                    <td><?= $sender_username ?></td>
+                                    <td><?= $date_time ?></td>
                                     <td><?= $row['message_text'] ?></td>
                                     <td>
-                                        <a href="./new_message.php?recipient=<?=urlencode($row['sender_id']) ?>">Reply</a>
+                                        <!-- sender id is the current person we want to message -->
+                                        <a href="./new_message.php?recipient=<?= urlencode($row['sender_id']) ?>">Reply</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -78,7 +82,8 @@
                 </div>
             </div>
         </div>
-    
+
     </div>
 </body>
+
 </html>

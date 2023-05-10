@@ -1,4 +1,5 @@
 <?php
+// checks if a user is logged in and returns user data if so
 function check_login($conn)
 {
     if (isset($_SESSION['user_id'])) {
@@ -68,29 +69,21 @@ function build_query($conn, $search_table)
     return $result;
 }
 
-function get_recipient_id($conn, $recipient_name)
+
+// show all messages belonging to a user
+function get_user_messages($conn, $user_id)
 {
-    $query = "select user_id from users where user_name = '$recipient_name' limit 1";
-    $result = mysqli_query($conn, $query);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        return $row['user_id'];
-    }
-
-    throw new Exception("Failed to get recipient ID, does not exist within users table");
-}
-
-function get_user_messages($conn, $recipient_id) {
-    $query = "select * from messages join users on messages.recipient_id = users.user_id where messages.recipient_id = '$recipient_id';";
+    $query = "select * from messages join users on messages.recipient_id = users.user_id where messages.recipient_id = '$user_id';";
 
     $result = mysqli_query($conn, $query);
 
     return $result;
 }
 
-function get_sender_name($conn, $sender_id) {
-    $query = "select user_name from users where user_id = '$sender_id' limit 1";
+// convert user id to a username
+function user_id_to_username($conn, $user_id)
+{
+    $query = "select user_name from users where user_id = '$user_id' limit 1";
 
     $result = mysqli_query($conn, $query);
 
