@@ -9,6 +9,7 @@ $user_data = check_login($conn);
 $user_id = $user_data['user_id'];
 
 $appointment_requests = get_appointment_requests($conn, $user_id);
+$appointments = get_scheduled_appointments($conn, $user_id);
 ?>
 
 <!DOCTYPE html>
@@ -45,61 +46,104 @@ $appointment_requests = get_appointment_requests($conn, $user_id);
     </nav>
     <h1 class="text-center" style="padding: 25px 0px 25px 0px">Scheduling</h1>
     <div class="container p-3">
-        <div class="col-md-12">
-            <div class="card p-3">
-                <h2 class="card-title p-3">Appointment Requests</h2>
-                <div class="card-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Request ID</th>
-                                <th scope="col">From</th>
-                                <th scope="col">Requested Date and Time</th>
-                                <th scope="col">Reason</th>
-                                <th scope="col">Accept</th>
-                                <th scope="col">Deny</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- embedded php to display results of query -->
-                            <?php foreach ($appointment_requests as $row) : ?>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class=" card p-3">
+                    <h2 class="card-title p-3">Appointment Requests</h2>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <?php
-                                    // get the username of whoever requested this meeting
-                                    $request_id = $row['id'];
-                                    $creator_id = $row['creator_id'];
-                                    $creator_name = user_id_to_username($conn, $creator_id);
-                                    // create new DateTime obj to format the date string
-                                    $date_time = new DateTime($row['date_time']);
-                                    $date_time = $date_time->format('m/d/Y h:i A');
-                                    $message_text = $row['message_text'];
-                                    ?>
-                                    <td><?= $request_id ?></td>
-                                    <td><?= $creator_name ?></td>
-                                    <td><?= $date_time ?></td>
-                                    <td><?= $message_text ?></td>
-                                    <td>
-                                        <!-- this button is not functional yet -->
-                                        <a class="btn btn-primary">Accept</a>
-                                    </td>
-                                    <td>
-                                        <form method="POST" action="./delete_record.php">
-                                            <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    </td>
+                                    <th scope="col">Request ID</th>
+                                    <th scope="col">From</th>
+                                    <th scope="col">Requested Date and Time</th>
+                                    <th scope="col">Reason</th>
+                                    <th scope="col">Accept</th>
+                                    <th scope="col">Deny</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <!-- embedded php to display results of query -->
+                                <?php foreach ($appointment_requests as $row) : ?>
+                                    <tr>
+                                        <?php
+                                        // get the username of whoever requested this meeting
+                                        $request_id = $row['id'];
+                                        $creator_id = $row['creator_id'];
+                                        $creator_name = user_id_to_username($conn, $creator_id);
+                                        // create new DateTime obj to format the date string
+                                        $date_time = new DateTime($row['date_time']);
+                                        $date_time = $date_time->format('m/d/Y h:i A');
+                                        $message_text = $row['message_text'];
+                                        ?>
+                                        <td><?= $request_id ?></td>
+                                        <td><?= $creator_name ?></td>
+                                        <td><?= $date_time ?></td>
+                                        <td><?= $message_text ?></td>
+                                        <td>
+                                            <form method="POST" action="./insert_record.php">
+                                                <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
+                                                <button type="submit" class="btn btn-primary">Accept</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="POST" action="./delete_record.php">
+                                                <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h2 class="card-title p-3">Scheduled Appointments</h2>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Appointment ID</th>
+                                    <th scope="col">With</th>
+                                    <th scope="col">Date and Time</th>
+                                    <th scope="col">Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- embedded php to display results of query -->
+                                <?php foreach ($appointments as $row) : ?>
+                                    <tr>
+                                        <?php
+                                        // get the username of whoever requested this meeting
+                                        $appointment_id = $row['id'];
+                                        $creator_id = $row['creator_id'];
+                                        $creator_name = user_id_to_username($conn, $creator_id);
+                                        // create new DateTime obj to format the date string
+                                        $date_time = new DateTime($row['date_time']);
+                                        $date_time = $date_time->format('m/d/Y h:i A');
+                                        $message_text = $row['message_text'];
+                                        ?>
+                                        <td><?= $appointment_id ?></td>
+                                        <td><?= $creator_name ?></td>
+                                        <td><?= $date_time ?></td>
+                                        <td><?= $message_text ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

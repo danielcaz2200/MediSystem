@@ -6,33 +6,35 @@ include("../util/functions.php");
 // check if user is logged in
 $user_data = check_login($conn);
 
+$recipient_name = "";
+
 if (isset($_GET['recipient'])) {
     $recipient_id = $_GET['recipient'];
     $recipient_name = user_id_to_username($conn, $_GET['recipient']);
-} else {
-    $recipient_name = "";
 }
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $recipient_id = get_recipient_id($conn, $_POST['recipient-username']);
-    $sender_id = $_SESSION['user_id'];
-    $date_time = date('Y-m-d H:i:s');
-    $message_text = htmlspecialchars($_POST['message-text']);
+    if (!empty($_POST['recipient-username'])) {
+        $recipient_id = get_recipient_id($conn, $_POST['recipient-username']);
+        $sender_id = $_SESSION['user_id'];
+        $date_time = date('Y-m-d H:i:s');
+        $message_text = htmlspecialchars($_POST['message-text']);
 
-    $query = "insert into messages (recipient_id, sender_id, date_time, message_text) values ('$recipient_id', '$sender_id', '$date_time', '$message_text')";
+        $query = "insert into messages (recipient_id, sender_id, date_time, message_text) values ('$recipient_id', '$sender_id', '$date_time', '$message_text')";
 
-    mysqli_query($conn, $query);
+        mysqli_query($conn, $query);
 
-    // sends user to confirmation page, then redirects them back to inbox
-    echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
-    echo '<div class="text-center">
+        // sends user to confirmation page, then redirects them back to inbox
+        echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
+        echo '<div class="text-center">
             <h1 class="text-center">Message sent!</h1>
             <h3 class="text-center">Returning to your messaging inbox...</h3>
             <a href="messaging.php">Click to redirect if it doesn\'t redirect you automatically</a>
         </div>';
 
-    header("refresh:4; url=messaging.php");
+        header("refresh:4; url=messaging.php");
+    }
 
     die();
 }
@@ -75,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <h1 class="p-3">New Message</h1>
         <form method="POST" id="message-form" class="form-floating mx-auto rounded">
+
             <div class="p-3">
                 <label for="recipient-username" class="form-label">Recipient Username</label>
                 <input type="text" class="form-control" placeholder="Example: user12345" name="recipient-username" id="recipient-username" value="<?= $recipient_name ?>" required>

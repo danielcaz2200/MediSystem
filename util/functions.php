@@ -105,6 +105,15 @@ function get_appointment_requests($conn, $user_id)
     return $result;
 }
 
+function get_scheduled_appointments($conn, $user_id)
+{
+    $query = "select * from appointments where recipient_id = '$user_id' limit 1";
+
+    $result = mysqli_query($conn, $query);
+
+    return $result;
+}
+
 function get_recipient_id($conn, $recipient_name)
 {
     $query = "select user_id from users where user_name = '$recipient_name' limit 1";
@@ -115,5 +124,5 @@ function get_recipient_id($conn, $recipient_name)
         return $row['user_id'];
     }
 
-    throw new Exception("Failed to get recipient ID, does not exist within users table");
+    die("Failed to get recipient ID, does not exist within users table");
 }

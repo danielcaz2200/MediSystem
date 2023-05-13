@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_time = date('Y-m-d H:i:s', strtotime($_POST['time']));
     $message_text = htmlspecialchars($_POST['reason']);
 
-    $query = "insert into appointment_requests (recipient_id, creator_id, date_time, message_text) values ('$recipient_id', '$creator_id', '$date_time', '$message_text')";
+    $query = "insert into appointment_requests (creator_id, recipient_id, date_time, message_text) values ('$creator_id', '$recipient_id', '$date_time', '$message_text')";
 
     mysqli_query($conn, $query);
 
@@ -71,15 +71,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <!-- begin form -->
         <div class="p-3 lead">Request an appointment with: <?= $recipient_name ?></div>
+
         <form method="POST" id="appointment-form" class="form-floating mx-auto rounded">
             <div class="p-3">
                 <label for="appointment-reason" class="form-label">Reason for appointment</label>
-                <input type="text" class="form-control" placeholder="Reason for appointment" id="appointment-reason" name="reason">
+                <input type="text" class="form-control" placeholder="Reason for appointment" id="appointment-reason" name="reason" required>
             </div>
 
             <div class="p-3">
                 <label for="appointment-time" class="form-label">Date and time</label>
-                <input type="datetime-local" class="form-control" id="appointment-time" name="time">
+                <input type="datetime-local" class="form-control" id="appointment-time" name="time" required>
             </div>
 
             <div class="p-3">

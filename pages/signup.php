@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: login.php");
         die();
     } else {
-        echo "Please enter some valid information<br>";
+        echo '<p class="text-center lead">Please enter some valid information</p>';
     }
 }
 ?>
@@ -107,10 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="link-primary p-3">
                 <a href="login.php">Click to login</a>
-            </div>
-
-            <div class="m-3" id="error-message">
-                <!-- Where error message goes -->
             </div>
         </form>
         <!-- end form -->
