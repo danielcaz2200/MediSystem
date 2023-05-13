@@ -16,7 +16,7 @@ if (isset($_GET['recipient'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['recipient-username'])) {
-        $recipient_id = get_recipient_id($conn, $_POST['recipient-username']);
+        $recipient_id = username_to_id($conn, $_POST['recipient-username']);
         $sender_id = $_SESSION['user_id'];
         $date_time = date('Y-m-d H:i:s');
         $message_text = htmlspecialchars($_POST['message-text']);

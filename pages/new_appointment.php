@@ -16,15 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // convert to date_time
     $date_time = date('Y-m-d H:i:s', strtotime($_POST['time']));
     $message_text = htmlspecialchars($_POST['reason']);
-
-    $query = "insert into appointment_requests (creator_id, recipient_id, date_time, message_text) values ('$creator_id', '$recipient_id', '$date_time', '$message_text')";
+    $status = 'PENDING';
+    $query = "insert into appointments (creator_id, recipient_id, date_time, message_text, status) values ('$creator_id', '$recipient_id', '$date_time', '$message_text', '$status')";
 
     mysqli_query($conn, $query);
 
     // sends user to confirmation page, then redirects them back to inbox
     echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
     echo '<div class="text-center">
-            <h1 class="text-center">Message sent!</h1>
+            <h1 class="text-center">Request sent!</h1>
             <h3 class="text-center">Returning to search page...</h3>
             <a href="search.php">Click to redirect if it doesn\'t redirect you automatically</a>
         </div>';

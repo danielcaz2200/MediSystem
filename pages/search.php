@@ -17,7 +17,12 @@ $result = build_query($conn, $search_table);
 
 // runs whenever a GET request is made
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $result = build_query($conn, $search_table);
+    if (isset($_GET['apply-filters'])) {
+        $result = build_query($conn, $search_table);
+    } else {
+        // pass in default argument
+        $result = build_query($conn, $search_table, true);
+    }
 }
 ?>
 
@@ -72,9 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 <input type="text" name="specialty" class="form-control" placeholder="Specialty">
                             </div>
 
-                            <div>
-                                <button type="submit" class="btn btn-primary">Filter results</button>
-                            </div>
+                            <button type="submit" name="apply-filters" class="btn btn-primary">Filter results</button>
+                            <button type="submit" name="reset-filters" class="btn btn-danger">Clear filters</button>
                         </form>
                     </div>
                 </div>

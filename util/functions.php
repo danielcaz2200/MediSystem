@@ -38,30 +38,32 @@ function random_num($length)
 }
 
 // this builds the sql queries for the filtering mechanism
-function build_query($conn, $search_table)
+function build_query($conn, $search_table, $clear_filters = false)
 {
     $query = "select * from $search_table";
 
-    // our array to hold the conditions
-    $where = array();
+    if (!$clear_filters) {
+        // our array to hold the conditions
+        $where = array();
 
-    // check if these keys are set and they contain actual strings
-    if (isset($_GET['username']) && !empty($_GET['username'])) {
-        $user_name = $_GET['username'];
-        $where[] = "user_name='$user_name'";
-    }
-    if (isset($_GET['city']) && !empty($_GET['city'])) {
-        $city = $_GET['city'];
-        $where[] = "city='$city'";
-    }
-    if (isset($_GET['specialty']) && !empty($_GET['specialty'])) {
-        $specialty = $_GET['specialty'];
-        $where[] = "specialty='$specialty'";
-    }
+        // check if these keys are set and they contain actual strings
+        if (isset($_GET['username']) && !empty($_GET['username'])) {
+            $user_name = $_GET['username'];
+            $where[] = "user_name like '%$user_name%'";
+        }
+        if (isset($_GET['city']) && !empty($_GET['city'])) {
+            $city = $_GET['city'];
+            $where[] = "city like '%$city%'";
+        }
+        if (isset($_GET['specialty']) && !empty($_GET['specialty'])) {
+            $specialty = $_GET['specialty'];
+            $where[] = "specialty like '%$specialty%'";
+        }
 
-    // create the query using implode
-    if (count($where) > 0) {
-        $query .= " WHERE " . implode(' AND ', $where);
+        // create the query using implode
+        if (count($where) > 0) {
+            $query .= " WHERE " . implode(' OR ', $where);
+        }
     }
 
     $result = mysqli_query($conn, $query);
@@ -96,25 +98,16 @@ function user_id_to_username($conn, $user_id)
     die("Failed to get user_name, does not exist within users table");
 }
 
-function get_appointment_requests($conn, $user_id)
+function get_appointments($conn, $user_id)
 {
-    $query = "select * from appointment_requests where recipient_id = '$user_id' limit 1";
+    $query = "select * from appointments where recipient_id = '$user_id' or creator_id = '$user_id' limit 1";
 
     $result = mysqli_query($conn, $query);
 
     return $result;
 }
 
-function get_scheduled_appointments($conn, $user_id)
-{
-    $query = "select * from appointments where recipient_id = '$user_id' limit 1";
-
-    $result = mysqli_query($conn, $query);
-
-    return $result;
-}
-
-function get_recipient_id($conn, $recipient_name)
+function username_to_id($conn, $recipient_name)
 {
     $query = "select user_id from users where user_name = '$recipient_name' limit 1";
     $result = mysqli_query($conn, $query);
