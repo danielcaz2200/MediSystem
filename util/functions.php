@@ -85,7 +85,7 @@ function get_user_messages($conn, $user_id)
 // mark message as read
 function mark_as_read($conn, $user_id)
 {
-    $query = "update messages "
+    //$query = "update messages "
 }
 
 // convert user id to a username
