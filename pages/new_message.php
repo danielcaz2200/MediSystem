@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['recipient-username'])) {
         $recipient_id = username_to_id($conn, $_POST['recipient-username']);
         $sender_id = $_SESSION['user_id'];
+        echo date_default_timezone_set('America/Los_Angeles');
         $date_time = date('Y-m-d H:i:s');
         $message_text = htmlspecialchars($_POST['message-text']);
 

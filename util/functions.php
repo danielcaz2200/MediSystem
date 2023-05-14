@@ -75,11 +75,17 @@ function build_query($conn, $search_table, $clear_filters = false)
 // show all messages belonging to a user
 function get_user_messages($conn, $user_id)
 {
-    $query = "select * from messages where recipient_id = '$user_id'";
+    $query = "select * from messages where recipient_id = '$user_id' order by date_time DESC";
 
     $result = mysqli_query($conn, $query);
 
     return $result;
+}
+
+// mark message as read
+function mark_as_read($conn, $user_id)
+{
+    $query = "update messages "
 }
 
 // convert user id to a username

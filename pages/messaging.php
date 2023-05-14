@@ -54,10 +54,11 @@ $result = get_user_messages($conn, $user_id);
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th scope="col"></th>
                                 <th scope="col">From</th>
                                 <th scope="col">Date and Time</th>
                                 <th scope="col">Message</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,7 +72,9 @@ $result = get_user_messages($conn, $user_id);
                                     $date_time = new DateTime($row['date_time']);
                                     $date_time = $date_time->format('m/d/Y h:i A');
                                     $message_text = $row['message_text'];
+                                    $read_status = $row['read_status'] ? 'Read' : 'Unread';
                                     ?>
+                                    <td><?= $read_status ?></td>
                                     <td><?= $sender_username ?></td>
                                     <td><?= $date_time ?></td>
                                     <td><?= $message_text ?></td>
@@ -79,6 +82,7 @@ $result = get_user_messages($conn, $user_id);
                                         <!-- sender id is the current person we want to message -->
                                         <a href="./new_message.php?recipient=<?= urlencode($sender_id) ?>">Reply</a>
                                     </td>
+                                    <td>Mark as read</td> <!-- this will be a button to mark the message as 'read' -->
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -86,7 +90,6 @@ $result = get_user_messages($conn, $user_id);
                 </div>
             </div>
         </div>
-
     </div>
 </body>
 
