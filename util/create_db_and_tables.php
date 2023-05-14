@@ -12,7 +12,7 @@ if (!mysqli_select_db($conn, $dbname)) {
 }
 
 $tables = [
-    "CREATE TABLE `appointments` (
+    "CREATE TABLE IF NOT EXISTS `appointments` (
         `id` bigint(20) NOT NULL AUTO_INCREMENT,
         `creator_id` bigint(20) NOT NULL,
         `recipient_id` bigint(20) NOT NULL,
