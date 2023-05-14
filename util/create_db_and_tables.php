@@ -1,7 +1,7 @@
 <?php
 
 // Database does not exist, create it and tables
-$sql = "CREATE DATABASE IF NOT EXISTS medical_system_db";
+$sql = "CREATE DATABASE IF NOT EXISTS $dbname";
 
 if (!mysqli_query($conn, $sql)) {
     die("Sorry, database creation failed: " . mysqli_error($conn));
