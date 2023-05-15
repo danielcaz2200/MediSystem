@@ -60,7 +60,7 @@ $sent_messages = get_sent_messages($conn, $user_id);
                                     <th scope="col">Date and Time</th>
                                     <th scope="col">Message</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Actions</th>
+                                    <th scope="col" colspan="2">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
