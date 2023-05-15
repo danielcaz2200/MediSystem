@@ -116,7 +116,7 @@ function user_id_to_username($conn, $user_id)
 
 function get_appointments($conn, $user_id)
 {
-    $query = "select * from appointments where recipient_id = '$user_id' or creator_id = '$user_id' limit 1";
+    $query = "select * from appointments where recipient_id = '$user_id' or creator_id = '$user_id'";
 
     $result = mysqli_query($conn, $query);
 

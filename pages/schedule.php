@@ -35,7 +35,7 @@ $appointments = get_appointments($conn, $user_id);
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./schedule.php">Schedule</a>    
+                    <a class="nav-link" href="./schedule.php">Schedule</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./messaging.php">Messaging</a>
@@ -89,7 +89,7 @@ $appointments = get_appointments($conn, $user_id);
                                             <td><?= $date_time ?></td>
                                             <td><?= $message_text ?></td>
                                             <td><?= $status ?></td>
-                                            <?php if ($user_id === $recipient_id) : ?>
+                                            <?php if ($user_id === $recipient_id && $status === 'PENDING') : ?>
                                                 <td>
                                                     <form method="POST" action="./accept_appointment.php">
                                                         <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
