@@ -71,21 +71,31 @@ function build_query($conn, $search_table, $clear_filters = false)
     return $result;
 }
 
+function get_all_users($conn)
+{
+    $query = "select * from users";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}
+
 
 // show all messages belonging to a user
 function get_user_messages($conn, $user_id)
 {
-    $query = "select * from messages where recipient_id = '$user_id' order by date_time DESC";
+    $query = "select * from messages where recipient_id = '$user_id' order by date_time desc";
 
     $result = mysqli_query($conn, $query);
 
     return $result;
 }
 
-// mark message as read
-function mark_as_read($conn, $user_id)
+function get_sent_messages($conn, $user_id)
 {
-    //$query = "update messages "
+    $query = "select * from messages where sender_id = '$user_id' order by date_time desc";
+
+    $result = mysqli_query($conn, $query);
+
+    return $result;
 }
 
 // convert user id to a username

@@ -12,22 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = $_POST['city'];
     $specialty = $_POST['specialty'];
 
-    $user_table = ($user_type === 'medical provider') ? 'medical_providers' : 'medical_suppliers';
-
     // hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // we do not want a number as a username
     if (!empty($user_name) && !empty($password) && !is_numeric($user_name) && !empty($user_type) && !empty($email) && !empty($city) && !empty($specialty)) {
         $user_id = random_num(20);
-        $query = "insert into users (user_id, user_name, password, user_type, email, city) values ('$user_id', '$user_name', '$hashed_password', '$user_type', '$email', '$city')";
+        $query = "insert into users (user_id, user_name, password, user_type, email, city, specialty) values ('$user_id', '$user_name', '$hashed_password', '$user_type', '$email', '$city', '$specialty')";
 
-        mysqli_query($conn, $query);
-
-        // add entry into corresponding table
-        $query = "insert into $user_table (user_id, user_name, email, city, specialty) values ('$user_id', '$user_name', '$email', '$city', '$specialty')";
-
-        mysqli_query($conn, $query);
+        if (!mysqli_query($conn, $query)) {
+            die("Unable to create new user account");
+        }
 
         header("Location: login.php");
         die();
@@ -75,16 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                 <!-- Toggle password show/hide -->
                 <input class="form-check-input" type="checkbox" onClick="toggleShow()"> Show password
-                <script>
-                    function toggleShow() {
-                        var x = document.getElementById("password");
-                        if (x.type === "password") {
-                            x.type = "text";
-                        } else {
-                            x.type = "password";
-                        }
-                    }
-                </script>
             </div>
 
             <div class="p-3">
@@ -113,6 +98,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        function toggleShow() {
+            var text = document.getElementById("password");
+            if (text.type === "password") {
+                text.type = "text";
+            } else {
+                text.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>

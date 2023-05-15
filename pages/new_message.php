@@ -18,11 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['recipient-username'])) {
         $recipient_id = username_to_id($conn, $_POST['recipient-username']);
         $sender_id = $_SESSION['user_id'];
-        echo date_default_timezone_set('America/Los_Angeles');
+
+        // update timezone to match local one
+        date_default_timezone_set('America/Los_Angeles');
         $date_time = date('Y-m-d H:i:s');
         $message_text = htmlspecialchars($_POST['message-text']);
+        $read_status = 'UNREAD';
 
-        $query = "insert into messages (recipient_id, sender_id, date_time, message_text) values ('$recipient_id', '$sender_id', '$date_time', '$message_text')";
+        $query = "insert into messages (recipient_id, sender_id, date_time, message_text, read_status) values ('$recipient_id', '$sender_id', '$date_time', '$message_text', '$read_status')";
 
         mysqli_query($conn, $query);
 

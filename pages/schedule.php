@@ -47,7 +47,7 @@ $appointments = get_appointments($conn, $user_id);
     <div class="container p-3">
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 p-3">
                 <div class=" card p-3">
                     <h2 class="card-title p-3">Appointments</h2>
                     <div class="card-body">
@@ -106,7 +106,7 @@ $appointments = get_appointments($conn, $user_id);
                 </div>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 p-3">
                 <div class="card p-3">
                     <h2 class="card-title p-3">Denied Appointments</h2>
                     <div class="card-body">
