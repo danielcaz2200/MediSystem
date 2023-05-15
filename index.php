@@ -24,18 +24,24 @@ $user_data = check_login($conn);
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <ul class="navbar-nav me-auto">
-                <a class="navbar-brand" href="index.php">MediSystem</a>
+                <a class="navbar-brand" href="./index.php">MediSystem</a>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php">Home</a>
+                    <a class="nav-link" href="./index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/dashboard.php">Dashboard</a>
+                    <a class="nav-link" href="./pages/dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/search.php">Search</a>
+                    <a class="nav-link" href="./pages/schedule.php">Schedule</a>    
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/logout.php">Logout</a>
+                    <a class="nav-link" href="./pages/messaging.php">Messaging</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./pages/search.php">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./pages/logout.php">Logout</a>
                 </li>
             </ul>
         </div>
