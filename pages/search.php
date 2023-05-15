@@ -35,6 +35,12 @@ $result = get_all_users($conn);
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="./schedule.php">Schedule</a>    
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./messaging.php">Messaging</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="./search.php">Search</a>
                 </li>
                 <li class="nav-item">
