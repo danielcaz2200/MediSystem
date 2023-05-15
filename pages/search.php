@@ -63,6 +63,11 @@ $result = get_all_users($conn);
                         </div>
 
                         <div class="mb-3">
+                            <input type="text" name="role" class="form-control" placeholder="Role" onkeyup="filterTable()">
+                        </div>
+
+
+                        <div class="mb-3">
                             <input type="text" name="city" class="form-control" placeholder="City" onkeyup="filterTable()">
                         </div>
 
@@ -82,6 +87,7 @@ $result = get_all_users($conn);
                                     <th scope="col">User id</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Role</th>
                                     <th scope="col">City</th>
                                     <th scope="col">Specialty</th>
                                     <th scope="col">Request Appointment</th>
@@ -98,12 +104,14 @@ $result = get_all_users($conn);
                                             $current_user_id = $row['user_id'];
                                             $user_name = $row['user_name'];
                                             $email = $row['email'];
+                                            $role = $row['user_type'];
                                             $city = $row['city'];
                                             $specialty = $row['specialty'];
                                             ?>
                                             <td><?= $current_user_id ?></td>
                                             <td><?= $user_name ?></td>
                                             <td><?= $email ?></td>
+                                            <td><?= $role ?></td>
                                             <td><?= $city ?></td>
                                             <td><?= $specialty ?></td>
                                             <td>
