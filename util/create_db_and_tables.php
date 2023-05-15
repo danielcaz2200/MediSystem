@@ -23,7 +23,7 @@ $tables = [
       );",
     "CREATE TABLE IF NOT EXISTS medical_providers (user_id bigint(20) NOT NULL, user_name varchar(100) NOT NULL, email varchar(100) NOT NULL, city varchar(100) NOT NULL, specialty varchar(100) NOT NULL, PRIMARY KEY (user_id));",
     "CREATE TABLE IF NOT EXISTS medical_suppliers (user_id bigint(20) NOT NULL, user_name varchar(100) NOT NULL, email varchar(100) NOT NULL, city varchar(100) NOT NULL, specialty varchar(100) NOT NULL, PRIMARY KEY (user_id));",
-    "CREATE TABLE IF NOT EXISTS messages (recipient_id bigint(20) NOT NULL, sender_id bigint(20) NOT NULL, date_time datetime NOT NULL, message_text longtext NOT NULL, `read_status` tinyint(1) NOT NULL DEFAULT 0);",
+    "CREATE TABLE IF NOT EXISTS messages (message_id bigint(20) NOT NULL AUTO_INCREMENT, recipient_id bigint(20) NOT NULL, sender_id bigint(20) NOT NULL, date_time datetime NOT NULL, message_text longtext NOT NULL, `read_status` tinyint(1) NOT NULL DEFAULT 0, PRIMARY KEY (message_id));",
     "CREATE TABLE IF NOT EXISTS users (id bigint(20) NOT NULL AUTO_INCREMENT, user_id bigint(20) NOT NULL, user_name varchar(100) NOT NULL, password varchar(100) NOT NULL, date timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(), user_type varchar(100) NOT NULL, email varchar(100) NOT NULL, city varchar(100) NOT NULL, PRIMARY KEY (id), KEY user_id (user_id), KEY date (date), KEY user_name (user_name));"
 ];
 
