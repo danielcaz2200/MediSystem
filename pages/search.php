@@ -6,19 +6,9 @@ include("../util/functions.php");
 // check if user is logged in
 $user_data = check_login($conn);
 
-$user_type = $user_data['user_type'];
+$user_id = $user_data['user_id'];
 
-// defines search type string and the table string that will be used in sql queries
-$search_type = ($user_type === 'medical provider') ? 'medical suppliers' : 'medical providers';
-$search_table = ($user_type === 'medical provider') ? 'medical_suppliers' : 'medical_providers';
-
-// initial result == all rows
-$result = build_query($conn, $search_table);
-
-// runs whenever a GET request is made
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $result = build_query($conn, $search_table);
-}
+$result = get_all_users($conn);
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="./schedule.php">Schedule</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./messaging.php">Messaging</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="./search.php">Search</a>
                 </li>
                 <li class="nav-item">
@@ -57,25 +53,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         <div class="row">
             <div class="col-md-12">
                 <div class="card p-3">
-                    <div class="card-title">Filter <?= $search_type ?></div>
+                    <div class="card-title">Filter users</div>
                     <div class="card-body">
-                        <form method="GET">
-                            <div class="input-group mb-3">
-                                <input type="text" name="username" class="form-control" placeholder="Username">
-                            </div>
+                        <div class="mb-3">
+                            <input type="text" name="username" class="form-control" placeholder="Username" onkeyup="filterTable()">
+                        </div>
 
-                            <div class="input-group mb-3">
-                                <input type="text" name="city" class="form-control" placeholder="City">
-                            </div>
+                        <div class="mb-3">
+                            <input type="text" name="email" class="form-control" placeholder="Email" onkeyup="filterTable()">
+                        </div>
 
-                            <div class="input-group mb-3">
-                                <input type="text" name="specialty" class="form-control" placeholder="Specialty">
-                            </div>
+                        <div class="mb-3">
+                            <input type="text" name="role" class="form-control" placeholder="Role" onkeyup="filterTable()">
+                        </div>
 
-                            <div>
-                                <button type="submit" class="btn btn-primary">Filter results</button>
-                            </div>
-                        </form>
+
+                        <div class="mb-3">
+                            <input type="text" name="city" class="form-control" placeholder="City" onkeyup="filterTable()">
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" name="specialty" class="form-control" placeholder="Specialty" onkeyup="filterTable()">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,30 +82,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             <div class="col-md-12">
                 <div class="card p-3">
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table table-borderless table-striped" id="results-table">
                             <thead>
                                 <tr>
-                                    <th scope="col">User id</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Role</th>
                                     <th scope="col">City</th>
                                     <th scope="col">Specialty</th>
-                                    <th scope="col">Contact us</th>
+                                    <th scope="col">Request Appointment</th>
+                                    <th scope="col">Message User</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- embedded php to display results of query -->
                                 <?php foreach ($result as $row) : ?>
-                                    <tr>
-                                        <td><?= $row['user_id'] ?></td>
-                                        <td><?= $row['user_name'] ?></td>
-                                        <td><?= $row['email'] ?></td>
-                                        <td><?= $row['city'] ?></td>
-                                        <td><?= $row['specialty'] ?></td>
-                                        <td>
-                                            <a href="./schedule.php?recipient=<?= urlencode($row['user_name']) ?>">Contact me</a>
-                                        </td>
-                                    </tr>
+                                    <?php if ($row['user_id'] !== $user_id) : ?>
+                                        <tr>
+                                            <?php
+                                            $current_user_id = $row['user_id'];
+                                            $user_name = $row['user_name'];
+                                            $email = $row['email'];
+                                            $role = $row['user_type'];
+                                            $city = $row['city'];
+                                            $specialty = $row['specialty'];
+                                            ?>
+                                            <td><?= $user_name ?></td>
+                                            <td><?= $email ?></td>
+                                            <td><?= $role ?></td>
+                                            <td><?= $city ?></td>
+                                            <td><?= $specialty ?></td>
+                                            <td>
+                                                <a href="./new_appointment.php?recipient=<?= urlencode($current_user_id) ?>">Request appointment</a>
+                                            </td>
+                                            <td>
+                                                <a href="./new_message.php?recipient=<?= urlencode($current_user_id) ?>">Message me<a>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -118,6 +131,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script>
+            function filterTable() {
+                const query = q => document.querySelectorAll(q);
+                const filters = [...query('input.form-control')].map(e => new RegExp(e.value, 'i'));
+
+                query('tbody tr').forEach(
+                    row => row.style.display = filters.every((f, i) => f.test(row.cells[i].textContent)) ? '' : 'none');
+            }
+        </script>
 </body>
 
 </html>

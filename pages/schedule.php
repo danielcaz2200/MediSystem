@@ -6,19 +6,9 @@ include("../util/functions.php");
 // check if user is logged in
 $user_data = check_login($conn);
 
-if (isset($_GET['recipient'])) {
-    $recipient_name = $_GET['recipient'];
+$user_id = $user_data['user_id'];
 
-    // retrieves recipient id from users table
-    try {
-        $recipient_id = get_recipient_id($conn, $recipient_name);
-    } catch (Exception $e) {
-        // immediately stop the script if we could not retrieve recipient id
-        die("Error: " . $e->getMessage());
-    }
-}
-
-
+$appointments = get_appointments($conn, $user_id);
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +35,12 @@ if (isset($_GET['recipient'])) {
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="./schedule.php">Schedule</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./messaging.php">Messaging</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="./search.php">Search</a>
                 </li>
                 <li class="nav-item">
@@ -53,33 +49,122 @@ if (isset($_GET['recipient'])) {
             </ul>
         </div>
     </nav>
+    <h1 class="text-center" style="padding: 25px 0px 25px 0px">Scheduling</h1>
+    <div class="container p-3">
 
-    <div class="container">
-        <!-- begin form -->
-        <div class="p-3 lead">Request an appointment with: <?= $recipient_name ?></div>
-        <form method="post" id="message-form" class="form-floating mx-auto rounded">
-            <div class="p-3">
-                <label for="appointment-reason" class="form-label">Reason for appointment</label>
-                <input type="text" class="form-control" placeholder="Reason..." id="appointment-reason">
+        <div class="row">
+            <div class="col-md-12 p-3">
+                <div class=" card p-3">
+                    <h2 class="card-title p-3">Appointments</h2>
+                    <div class="card-body">
+                        <table class="table table-borderless table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Request ID</th>
+                                    <th scope="col">From</th>
+                                    <th scope="col">Requested Timeslot</th>
+                                    <th scope="col">Reason</th>
+                                    <th scope="col">Food</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- embedded php to display results of query -->
+                                <?php foreach ($appointments as $row) : ?>
+                                    <?php if ($row['status'] !== 'DENIED') : ?>
+                                        <tr>
+                                            <?php
+                                            // get the username of whoever requested this meeting
+                                            $request_id = $row['id'];
+                                            $creator_id = $row['creator_id'];
+                                            $recipient_id = $row['recipient_id'];
+                                            $creator_name = user_id_to_username($conn, $creator_id);
+                                            // create new DateTime obj to format the date string
+                                            $date_time = new DateTime($row['date_time']);
+                                            $date_time = $date_time->format('m/d/Y h:i A');
+                                            $message_text = $row['message_text'];
+                                            $food_preference = $row['food_preference'];
+                                            $location = $row['location'];
+                                            $status = $row['status'];
+                                            ?>
+                                            <td><?= $request_id ?></td>
+                                            <td><?= $creator_name ?></td>
+                                            <td><?= $date_time ?></td>
+                                            <td><?= $message_text ?></td>
+                                            <td><?= $food_preference ?></td>
+                                            <td><?= $location ?></td>
+                                            <td><?= $status ?></td>
+                                            <?php if ($user_id === $recipient_id && $status === 'PENDING') : ?>
+                                                <td>
+                                                    <form method="POST" action="./accept_appointment.php">
+                                                        <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
+                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <form method="POST" action="./deny_appointment.php">
+                                                        <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
+                                            <?php endif; ?>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <div class="p-3">
-                <label for="appointment-time" class="form-label">Date and time</label>
-                <input type="datetime-local" class="form-control" id="appointment-time">
+            <div class="col-md-12 p-3">
+                <div class="card p-3">
+                    <h2 class="card-title p-3">Denied Appointments</h2>
+                    <div class="card-body">
+                        <table class="table table-borderless table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Request ID</th>
+                                    <th scope="col">From</th>
+                                    <th scope="col">Requested Timeslot</th>
+                                    <th scope="col">Reason</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- embedded php to display results of query -->
+                                <?php foreach ($appointments as $row) : ?>
+                                    <?php if ($row['status'] === 'DENIED') : ?>
+                                        <tr>
+                                            <?php
+                                            // get the username of whoever requested this meeting
+                                            $request_id = $row['id'];
+                                            $creator_id = $row['creator_id'];
+                                            $recipient_id = $row['recipient_id'];
+                                            $creator_name = user_id_to_username($conn, $creator_id);
+                                            // create new DateTime obj to format the date string
+                                            $date_time = new DateTime($row['date_time']);
+                                            $date_time = $date_time->format('m/d/Y h:i A');
+                                            $message_text = $row['message_text'];
+                                            $status = $row['status'];
+                                            ?>
+                                            <td><?= $request_id ?></td>
+                                            <td><?= $creator_name ?></td>
+                                            <td><?= $date_time ?></td>
+                                            <td><?= $message_text ?></td>
+                                            <td><?= $status ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="p-3">
-                <label for="message-text" class="form-label">Message note</label>
-                <textarea class="form-control" placeholder="Add a note..." id="message-text" rows="4"></textarea>
-            </div>
-
-            <div class="p-3">
-                <button class="btn btn-primary" type="submit" id="message-button">Send message</button>
-            </div>
-        </form>
-        <!-- end form -->
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@ session_start();
 include("../util/connection.php");
 include("../util/functions.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // something was posted to the server
     $user_name = $_POST['username'];
     $password = $_POST['password'];
@@ -12,24 +12,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = $_POST['city'];
     $specialty = $_POST['specialty'];
 
-    $user_table = ($user_type === 'medical provider') ? 'medical_providers' : 'medical_suppliers';
+    // hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // we do not want a number as a username
     if (!empty($user_name) && !empty($password) && !is_numeric($user_name) && !empty($user_type) && !empty($email) && !empty($city) && !empty($specialty)) {
         $user_id = random_num(20);
-        $query = "insert into users (user_id, user_name, password, user_type, email, city) values ('$user_id', '$user_name', '$password', '$user_type', '$email', '$city')";
+        $query = "insert into users (user_id, user_name, password, user_type, email, city, specialty) values ('$user_id', '$user_name', '$hashed_password', '$user_type', '$email', '$city', '$specialty')";
 
-        mysqli_query($conn, $query);
-
-        // add entry into corresponding table
-        $query = "insert into $user_table (user_id, user_name, email, city, specialty) values ('$user_id', '$user_name', '$email', '$city', '$specialty')";
-
-        mysqli_query($conn, $query);
+        if (!mysqli_query($conn, $query)) {
+            die("Unable to create new user account");
+        }
 
         header("Location: login.php");
         die();
     } else {
-        echo "Please enter some valid information<br>";
+        echo '<p class="text-center lead">Please enter some valid information</p>';
     }
 }
 ?>
@@ -51,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <!-- begin form -->
         <div class="p-3 text-center">Sign up</div>
-        <form method="post" id="signup-form" class="form-floating mx-auto rounded">
+        <form method="POST" id="signup-form" class="form-floating mx-auto rounded">
             <div class="p-3">
                 <label for="username">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
@@ -70,6 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="p-3">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <!-- Toggle password show/hide -->
+                <input class="form-check-input" type="checkbox" onClick="toggleShow()"> Show password
             </div>
 
             <div class="p-3">
@@ -93,15 +93,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="link-primary p-3">
                 <a href="login.php">Click to login</a>
             </div>
-
-            <div class="m-3" id="error-message">
-                <!-- Where error message goes -->
-            </div>
         </form>
         <!-- end form -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        function toggleShow() {
+            var text = document.getElementById("password");
+            if (text.type === "password") {
+                text.type = "text";
+            } else {
+                text.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>

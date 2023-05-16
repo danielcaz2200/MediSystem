@@ -3,7 +3,7 @@ session_start();
 include("../util/connection.php");
 include("../util/functions.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // something was posted to the server
     $user_name = $_POST['username'];
     $password = $_POST['password'];
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result && mysqli_num_rows($result) > 0) {
             $user_data = mysqli_fetch_assoc($result);
 
-            if ($user_data['password'] === $password) {
+            if (password_verify($password, $user_data['password'])) {
                 // set session id
                 $_SESSION['user_id'] = $user_data['user_id'];
 
@@ -26,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die();
             }
         }
-        echo "Wrong username or password<br>";
+        echo '<p class="text-center lead">Wrong username or password</p>';
     } else {
-        echo "Please enter some valid information<br>";
+        echo '<p class="text-center lead">Please enter some valid information</p>';
     }
 }
 ?>
@@ -50,15 +50,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <!-- begin form -->
         <div class="p-3 text-center">Login</div>
-        <form method="post" id="login-form" class="form-floating mx-auto rounded">
+        <form method="POST" id="login-form" class="form-floating mx-auto rounded">
             <div class="p-3">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
             </div>
 
             <div class="p-3">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <!-- Toggle password show/hide -->
+                <input class="form-check-input" id="password-toggle" type="checkbox" onClick="toggleShow()">
+                <label for="password-toggle">Show password</label>
+                <script>
+                    function toggleShow() {
+                        // toggle password script
+                        let text = document.getElementById("password");
+                        if (text.type === "password") {
+                            text.type = "text";
+                        } else {
+                            text.type = "password";
+                        }
+                    }
+                </script>
             </div>
 
             <div class="p-3">
@@ -67,10 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="link-primary p-3">
                 <a href="signup.php">Click to signup</a>
-            </div>
-
-            <div class="m-3" id="error-message">
-                <!-- Where error message goes -->
             </div>
         </form>
         <!-- end form -->

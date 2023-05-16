@@ -1,4 +1,5 @@
 <?php
+// checks if a user is logged in and returns user data if so
 function check_login($conn)
 {
     if (isset($_SESSION['user_id'])) {
@@ -36,47 +37,71 @@ function random_num($length)
     return $text;
 }
 
-// this builds the sql queries for the filtering mechanism
-function build_query($conn, $search_table)
+// get all users in users table
+function get_all_users($conn)
 {
-    $query = "select * from $search_table";
+    $query = "select * from users";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}
 
-    // our array to hold the conditions
-    $where = array();
 
-    // check if these keys are set and they contain actual strings
-    if (isset($_GET['username']) && !empty($_GET['username'])) {
-        $user_name = $_GET['username'];
-        $where[] = "user_name='$user_name'";
-    }
-    if (isset($_GET['city']) && !empty($_GET['city'])) {
-        $city = $_GET['city'];
-        $where[] = "city='$city'";
-    }
-    if (isset($_GET['specialty']) && !empty($_GET['specialty'])) {
-        $specialty = $_GET['specialty'];
-        $where[] = "specialty='$specialty'";
-    }
-
-    // create the query using implode
-    if (count($where) > 0) {
-        $query .= " WHERE " . implode(' AND ', $where);
-    }
+// show all messages belonging to a user
+function get_user_messages($conn, $user_id)
+{
+    $query = "select * from messages where recipient_id = '$user_id' order by date_time desc";
 
     $result = mysqli_query($conn, $query);
 
     return $result;
 }
 
-function get_recipient_id($conn, $recipient_name)
+// get current user's sent messages
+function get_sent_messages($conn, $user_id)
 {
-    $query = "select id from users where user_name = '$recipient_name' limit 1";
+    $query = "select * from messages where sender_id = '$user_id' order by date_time desc";
+
+    $result = mysqli_query($conn, $query);
+
+    return $result;
+}
+
+// convert user id to a username
+function user_id_to_username($conn, $user_id)
+{
+    $query = "select user_name from users where user_id = '$user_id' limit 1";
+
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        return $row['id'];
+        $user_name = $row['user_name'];
+        return $user_name;
     }
 
-    throw new Exception("Failed to get recipient ID, does not exist within users table");
+    die("Failed to get user_name, does not exist within users table");
+}
+
+// get all appointments belonging to a user
+function get_appointments($conn, $user_id)
+{
+    $query = "select * from appointments where recipient_id = '$user_id' or creator_id = '$user_id'";
+
+    $result = mysqli_query($conn, $query);
+
+    return $result;
+}
+
+// convert username to numeric id
+function username_to_id($conn, $recipient_name)
+{
+    $query = "select user_id from users where user_name = '$recipient_name' limit 1";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['user_id'];
+    }
+
+    die("Failed to get recipient ID, does not exist within users table");
 }
