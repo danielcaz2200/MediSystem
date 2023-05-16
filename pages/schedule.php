@@ -57,7 +57,7 @@ $appointments = get_appointments($conn, $user_id);
                 <div class=" card p-3">
                     <h2 class="card-title p-3">Appointments</h2>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table table-borderless table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">Request ID</th>
@@ -91,7 +91,7 @@ $appointments = get_appointments($conn, $user_id);
                                             <td><?= $status ?></td>
                                             <?php if ($user_id === $recipient_id && $status === 'PENDING') : ?>
                                                 <td>
-                                                    <form method="POST" action="./accept_appointment.php">
+                                                    <form method="POST" action="../util/accept_appointment.php">
                                                         <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
                                                         <button type="submit" class="btn btn-primary">Accept</button>
                                                     </form>
@@ -116,7 +116,7 @@ $appointments = get_appointments($conn, $user_id);
                 <div class="card p-3">
                     <h2 class="card-title p-3">Denied Appointments</h2>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table table-borderless table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">Request ID</th>

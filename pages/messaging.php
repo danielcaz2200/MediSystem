@@ -35,7 +35,7 @@ $sent_messages = get_sent_messages($conn, $user_id);
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./schedule.php">Schedule</a>    
+                    <a class="nav-link" href="./schedule.php">Schedule</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./messaging.php">Messaging</a>
@@ -59,14 +59,14 @@ $sent_messages = get_sent_messages($conn, $user_id);
                         <a href="./new_message.php" class="btn btn-primary ">New Message</a>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table table-borderless table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">From</th>
                                     <th scope="col">Date and Time</th>
                                     <th scope="col">Message</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col" colspan="2">Actions</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,7 +115,7 @@ $sent_messages = get_sent_messages($conn, $user_id);
                         <a href="./new_message.php" class="btn btn-primary ">New Message</a>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table table-borderless table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">To</th>

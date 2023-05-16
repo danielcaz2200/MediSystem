@@ -35,7 +35,7 @@ $result = get_all_users($conn);
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./schedule.php">Schedule</a>    
+                    <a class="nav-link" href="./schedule.php">Schedule</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./messaging.php">Messaging</a>
@@ -87,7 +87,7 @@ $result = get_all_users($conn);
             <div class="col-md-12">
                 <div class="card p-3">
                     <div class="card-body">
-                        <table class="table table-striped" id="results-table">
+                        <table class="table table-borderless table-striped" id="results-table">
                             <thead>
                                 <tr>
                                     <th scope="col">User id</th>
