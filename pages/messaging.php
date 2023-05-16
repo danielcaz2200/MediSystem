@@ -92,7 +92,7 @@ $sent_messages = get_sent_messages($conn, $user_id);
                                             <!-- sender id is the current person we want to message -->
                                             <a href="./new_message.php?recipient=<?= urlencode($sender_id) ?>">Reply</a>
                                         </td>
-                                        <?php if ($user_id === $recipient_id) : ?>
+                                        <?php if ($user_id === $recipient_id && $read_status !== 'READ') : ?>
                                             <td>
                                                 <form method="POST" action="./mark_read.php">
                                                     <input type="hidden" name="message_id" value="<?= $message_id ?>">
