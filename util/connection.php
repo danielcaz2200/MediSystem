@@ -9,4 +9,4 @@ if (!$conn = mysqli_connect($hostname, $username, $password)) {
 }
 
 // creates db and tables
-include('create_db_and_tables.php');
+include_once('create_db_and_tables.php');

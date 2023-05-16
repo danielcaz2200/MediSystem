@@ -37,40 +37,7 @@ function random_num($length)
     return $text;
 }
 
-// this builds the sql queries for the filtering mechanism
-function build_query($conn, $search_table, $clear_filters = false)
-{
-    $query = "select * from $search_table";
-
-    if (!$clear_filters) {
-        // our array to hold the conditions
-        $where = array();
-
-        // check if these keys are set and they contain actual strings
-        if (isset($_GET['username']) && !empty($_GET['username'])) {
-            $user_name = $_GET['username'];
-            $where[] = "user_name like '%$user_name%'";
-        }
-        if (isset($_GET['city']) && !empty($_GET['city'])) {
-            $city = $_GET['city'];
-            $where[] = "city like '%$city%'";
-        }
-        if (isset($_GET['specialty']) && !empty($_GET['specialty'])) {
-            $specialty = $_GET['specialty'];
-            $where[] = "specialty like '%$specialty%'";
-        }
-
-        // create the query using implode
-        if (count($where) > 0) {
-            $query .= " WHERE " . implode(' OR ', $where);
-        }
-    }
-
-    $result = mysqli_query($conn, $query);
-
-    return $result;
-}
-
+// get all users in users table
 function get_all_users($conn)
 {
     $query = "select * from users";
@@ -89,6 +56,7 @@ function get_user_messages($conn, $user_id)
     return $result;
 }
 
+// get current user's sent messages
 function get_sent_messages($conn, $user_id)
 {
     $query = "select * from messages where sender_id = '$user_id' order by date_time desc";
@@ -114,6 +82,7 @@ function user_id_to_username($conn, $user_id)
     die("Failed to get user_name, does not exist within users table");
 }
 
+// get all appointments belonging to a user
 function get_appointments($conn, $user_id)
 {
     $query = "select * from appointments where recipient_id = '$user_id' or creator_id = '$user_id'";
@@ -123,6 +92,7 @@ function get_appointments($conn, $user_id)
     return $result;
 }
 
+// convert username to numeric id
 function username_to_id($conn, $recipient_name)
 {
     $query = "select user_id from users where user_name = '$recipient_name' limit 1";

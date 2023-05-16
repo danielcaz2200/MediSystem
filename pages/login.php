@@ -3,7 +3,7 @@ session_start();
 include("../util/connection.php");
 include("../util/functions.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // something was posted to the server
     $user_name = $_POST['username'];
     $password = $_POST['password'];

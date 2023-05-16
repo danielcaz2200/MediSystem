@@ -62,8 +62,10 @@ $appointments = get_appointments($conn, $user_id);
                                 <tr>
                                     <th scope="col">Request ID</th>
                                     <th scope="col">From</th>
-                                    <th scope="col">Requested Date and Time</th>
+                                    <th scope="col">Requested Timeslot</th>
                                     <th scope="col">Reason</th>
+                                    <th scope="col">Food</th>
+                                    <th scope="col">Location</th>
                                     <th scope="col">Status</th>
                                 </tr>
                             </thead>
@@ -82,16 +84,20 @@ $appointments = get_appointments($conn, $user_id);
                                             $date_time = new DateTime($row['date_time']);
                                             $date_time = $date_time->format('m/d/Y h:i A');
                                             $message_text = $row['message_text'];
+                                            $food_preference = $row['food_preference'];
+                                            $location = $row['location'];
                                             $status = $row['status'];
                                             ?>
                                             <td><?= $request_id ?></td>
                                             <td><?= $creator_name ?></td>
                                             <td><?= $date_time ?></td>
                                             <td><?= $message_text ?></td>
+                                            <td><?= $food_preference ?></td>
+                                            <td><?= $location ?></td>
                                             <td><?= $status ?></td>
                                             <?php if ($user_id === $recipient_id && $status === 'PENDING') : ?>
                                                 <td>
-                                                    <form method="POST" action="../util/accept_appointment.php">
+                                                    <form method="POST" action="./accept_appointment.php">
                                                         <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
                                                         <button type="submit" class="btn btn-primary">Accept</button>
                                                     </form>
@@ -121,7 +127,7 @@ $appointments = get_appointments($conn, $user_id);
                                 <tr>
                                     <th scope="col">Request ID</th>
                                     <th scope="col">From</th>
-                                    <th scope="col">Requested Date and Time</th>
+                                    <th scope="col">Requested Timeslot</th>
                                     <th scope="col">Reason</th>
                                     <th scope="col">Status</th>
                                 </tr>

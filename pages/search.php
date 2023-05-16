@@ -55,11 +55,6 @@ $result = get_all_users($conn);
                 <div class="card p-3">
                     <div class="card-title">Filter users</div>
                     <div class="card-body">
-
-                        <div class="mb-3">
-                            <input type="text" name="ID" class="form-control" placeholder="ID" onkeyup="filterTable()">
-                        </div>
-
                         <div class="mb-3">
                             <input type="text" name="username" class="form-control" placeholder="Username" onkeyup="filterTable()">
                         </div>
@@ -90,7 +85,6 @@ $result = get_all_users($conn);
                         <table class="table table-borderless table-striped" id="results-table">
                             <thead>
                                 <tr>
-                                    <th scope="col">User id</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Role</th>
@@ -106,7 +100,6 @@ $result = get_all_users($conn);
                                     <?php if ($row['user_id'] !== $user_id) : ?>
                                         <tr>
                                             <?php
-                                            // so it doesn't get confused with user_id
                                             $current_user_id = $row['user_id'];
                                             $user_name = $row['user_name'];
                                             $email = $row['email'];
@@ -114,7 +107,6 @@ $result = get_all_users($conn);
                                             $city = $row['city'];
                                             $specialty = $row['specialty'];
                                             ?>
-                                            <td><?= $current_user_id ?></td>
                                             <td><?= $user_name ?></td>
                                             <td><?= $email ?></td>
                                             <td><?= $role ?></td>

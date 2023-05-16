@@ -5,19 +5,22 @@ include("../util/functions.php");
 
 // check if user is logged in
 $user_data = check_login($conn);
+$user_location = $user_data['city'];
 
 if (isset($_GET['recipient'])) {
     $recipient_id = $_GET['recipient'];
     $recipient_name = user_id_to_username($conn, $recipient_id);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $creator_id = $_SESSION['user_id'];
     // convert to date_time
     $date_time = date('Y-m-d H:i:s', strtotime($_POST['time']));
     $message_text = htmlspecialchars($_POST['reason']);
     $status = 'PENDING';
-    $query = "insert into appointments (creator_id, recipient_id, date_time, message_text, status) values ('$creator_id', '$recipient_id', '$date_time', '$message_text', '$status')";
+    $food_preference = $_POST['food'];
+    $location = $_POST['location'];
+    $query = "insert into appointments (creator_id, recipient_id, date_time, message_text, status, food_preference, location) values ('$creator_id', '$recipient_id', '$date_time', '$message_text', '$status', '$food_preference', '$location')";
 
     mysqli_query($conn, $query);
 
@@ -59,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./schedule.php">Schedule</a>    
+                    <a class="nav-link" href="./schedule.php">Schedule</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./messaging.php">Messaging</a>
@@ -82,6 +85,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="p-3">
                 <label for="appointment-reason" class="form-label">Reason for appointment</label>
                 <input type="text" class="form-control" placeholder="Reason for appointment" id="appointment-reason" name="reason" required>
+            </div>
+
+            <div class="p-3">
+                <label for="food-preference" class="form-label">Food preference</label>
+                <input type="text" class="form-control" placeholder="Food preference" id="food-preference" name="food" required>
+            </div>
+
+            <div class="p-3">
+                <label for="appointment-location" class="form-label">Location</label>
+                <input type="text" class="form-control" placeholder="Location" id="appointment-location" name="location" value="<?= $user_location ?>" required>
             </div>
 
             <div class="p-3">

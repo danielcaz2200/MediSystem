@@ -35,6 +35,8 @@ $tables = [
         `date_time` datetime NOT NULL,
         `message_text` longtext NOT NULL,
         `status` varchar(100) NOT NULL,
+        `food_preference` varchar(100) NOT NULL,
+        `location` varchar(100) NOT NULL,
         PRIMARY KEY (`id`)
       );",
     "CREATE TABLE IF NOT EXISTS `messages` (
