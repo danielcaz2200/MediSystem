@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once("./util/create_db_and_tables.php");
 include("./util/connection.php");
 include("./util/functions.php");
 
@@ -32,7 +33,7 @@ $user_data = check_login($conn);
                     <a class="nav-link" href="./pages/dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./pages/schedule.php">Schedule</a>    
+                    <a class="nav-link" href="./pages/schedule.php">Schedule</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./pages/messaging.php">Messaging</a>

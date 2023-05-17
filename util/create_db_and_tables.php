@@ -1,4 +1,13 @@
 <?php
+$hostname = "localhost";
+$username = "root";
+$password = "";
+$dbname = "medisystem_db_431";
+
+if (!$conn = mysqli_connect($hostname, $username, $password)) {
+    die("Failed to connect to server.\n");
+}
+
 
 // database does not exist, create it and tables
 $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
@@ -61,6 +70,7 @@ $sql = "select * from users";
 $result = mysqli_query($conn, $sql);
 $count = mysqli_num_rows($result);
 
+// only insert dummy users if table empty
 if ($count == 0) {
     $password = password_hash("pass", PASSWORD_DEFAULT);
 
@@ -74,3 +84,6 @@ if ($count == 0) {
         die("Sorry, sample user creation failed: " . mysqli_error($conn));
     }
 }
+
+// close the connection
+mysqli_close($conn);
