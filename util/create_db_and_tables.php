@@ -2,7 +2,7 @@
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$dbname = "medisystem_db_431";
+$dbname = "medisystem_db_431danielcollin";
 
 if (!$conn = mysqli_connect($hostname, $username, $password)) {
     die("Failed to connect to server.\n");
