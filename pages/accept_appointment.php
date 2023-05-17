@@ -15,4 +15,6 @@ if (isset($_POST['request_id'])) {
     }
 
     die("Failed to update appointments");
+} else {
+    die("Illegal request!");
 }
