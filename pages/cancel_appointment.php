@@ -3,18 +3,18 @@ session_start();
 include("../util/connection.php");
 include("../util/functions.php");
 
-// this script denies a particular appointment, and moves it to the denied appointments table
+// this script accepts a particular appointment 
 // request and is tied to the deny button on schedule.php
-if (isset($_POST['request_id'])) {
-    $request_id = $_POST['request_id'];
-    $query = "update appointments set status='DENIED' where id='$request_id'";
+if (isset($_POST['appointment_id'])) {
+    $appointment_id = $_POST['appointment_id'];
+    $query = "delete from appointments where id='$appointment_id'";
 
     if (mysqli_query($conn, $query) && mysqli_affected_rows($conn) > 0) {
         header("Location: schedule.php");
         die();
     }
 
-    die("Failed to update appointments");
+    die("Failed to delete appointment");
 } else {
     die("Illegal request!");
 }

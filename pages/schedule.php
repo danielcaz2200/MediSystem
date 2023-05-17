@@ -95,6 +95,7 @@ $appointments = get_appointments($conn, $user_id);
                                             <td><?= $food_preference ?></td>
                                             <td><?= $location ?></td>
                                             <td><?= $status ?></td>
+                                            <!-- show accept or deny appointment buttons -->
                                             <?php if ($user_id === $recipient_id && $status === 'PENDING') : ?>
                                                 <td>
                                                     <form method="POST" action="./accept_appointment.php">
@@ -106,6 +107,15 @@ $appointments = get_appointments($conn, $user_id);
                                                     <form method="POST" action="./deny_appointment.php">
                                                         <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
                                                         <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
+                                            <?php endif; ?>
+                                            <!-- show cancel appointment button -->
+                                            <?php if ($status === 'ACCEPTED') : ?>
+                                                <td>
+                                                    <form method="POST" action="./cancel_appointment.php">
+                                                        <input type="hidden" name="appointment_id" value="<?= $row['id'] ?>">
+                                                        <button type="submit" class="btn btn-warning">Cancel</button>
                                                     </form>
                                                 </td>
                                             <?php endif; ?>
