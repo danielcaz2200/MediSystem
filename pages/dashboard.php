@@ -1,4 +1,5 @@
 <?php
+/* Copyright (c) 2023 Daniel C & Collin Chiu, All rights reserved */
 session_start();
 include("../util/connection.php");
 include("../util/functions.php");
@@ -32,7 +33,7 @@ $user_data = check_login($conn);
                     <a class="nav-link" href="./dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./schedule.php">Schedule</a>    
+                    <a class="nav-link" href="./schedule.php">Schedule</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./messaging.php">Messaging</a>

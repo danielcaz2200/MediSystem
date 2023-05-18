@@ -1,4 +1,6 @@
 <?php
+/* Copyright (c) 2023 Daniel C & Collin Chiu, All rights reserved */
+
 session_start();
 include_once("./util/create_db_and_tables.php");
 include("./util/connection.php");
