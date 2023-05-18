@@ -1,4 +1,5 @@
 <?php
+/* Copyright (c) 2023 Daniel C & Collin Chiu, All rights reserved */
 $hostname = "localhost";
 $username = "root";
 $password = "";
