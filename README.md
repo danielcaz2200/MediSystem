@@ -4,6 +4,10 @@ Collaborators: Daniel Cazarez, Collin Chiu
 ## Purpose:
 This is a fullstack project developed primarily in PHP (using the LAMPP stack) to mock an internal tool used by doctor's offices.
 
+## Stack breakdown:
+- Frontend: HTML, CSS, JavaScript
+- Backend: PHP, MySQL
+
 ## Requirements:
 Required installations and steps before running this web app:
 - Must have XAMPP installed on local device to run this application.
